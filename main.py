@@ -13,7 +13,7 @@ import litellm
 from litellm import BudgetManager
 litellm.max_budget = 1000 
 
-budget_manager = BudgetManager(project_name=os.getenv("PROJECT_NAME"), client_type="hosted")
+budget_manager = BudgetManager(project_name=os.getenv("PROJECT_NAME"))
 
 from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.responses import StreamingResponse
