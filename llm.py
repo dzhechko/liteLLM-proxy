@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from utils import getenv
 
 import backoff
-import openai.error
+import openai
 
 import litellm
 import os
@@ -46,24 +46,24 @@ def handle_llm_exception(e: Exception):
     if isinstance(
         e,
         (
-            openai.error.APIError,
-            openai.error.TryAgain,
-            openai.error.Timeout,
-            openai.error.ServiceUnavailableError,
+            openai.APIError,
+            openai.TryAgain,
+            openai.Timeout,
+            openai.ServiceUnavailableError,
         ),
     ):
         raise RetryConstantError from e
-    elif isinstance(e, openai.error.RateLimitError):
+    elif isinstance(e, openai.RateLimitError):
         raise RetryExpoError from e
     elif isinstance(
         e,
         (
-            openai.error.APIConnectionError,
-            openai.error.InvalidRequestError,
-            openai.error.AuthenticationError,
-            openai.error.PermissionError,
-            openai.error.InvalidAPIType,
-            openai.error.SignatureVerificationError,
+            openai.APIConnectionError,
+            openai.InvalidRequestError,
+            openai.AuthenticationError,
+            openai.PermissionError,
+            openai.InvalidAPIType,
+            openai.SignatureVerificationError,
         ),
     ):
         raise e
